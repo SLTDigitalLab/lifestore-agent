@@ -7,8 +7,7 @@ publishes ports; PostgreSQL and the API stay on the Compose network. Volumes
 persist the database, ACME webroot, and certificates. The `certbot` service is an
 on-demand helper in the `tls` profile.
 
-This deploys the backend with a token-protected browsing demo at `/` and `/api/chat`. Public customer authentication and conversational cart/checkout routing require additional integration. PayHere checkout currently supports **sandbox only**. Deployment
-of these containers is not evidence that the live launch gate has passed.
+This deploys account sign-in, saved conversations, shopping chat, and confirmed checkout. PayHere payments support **sandbox only**. Use HTTPS for the Secure session cookie and configure `PAYHERE_PUBLIC_BASE_URL` to match the application origin.
 
 ## Configure and initialize
 
@@ -30,8 +29,11 @@ docker compose --env-file .env.prod -f docker-compose.prod.yml config --quiet
 docker compose --env-file .env.prod -f docker-compose.prod.yml build api
 docker compose --env-file .env.prod -f docker-compose.prod.yml up -d db
 docker compose --env-file .env.prod -f docker-compose.prod.yml run --rm api python -m app.db.schema
+docker compose --env-file .env.prod -f docker-compose.prod.yml run --rm api python -m scripts.create_test_account
 docker compose --env-file .env.prod -f docker-compose.prod.yml up -d api nginx
 ```
+
+The account command creates username `tester` and prints its generated password only on first creation. Save it privately; subsequent runs retain the password. Sign in at the HTTPS application origin.
 
 Schema creation is idempotent, including `audit_logs`. It is not an upgrade
 migration engine for future column changes. Run reviewed migrations before new
@@ -159,7 +161,7 @@ payments before switching environments; use separate databases/deployments.
 
 Provider keys do not change just because PayHere changes mode. OpenAI selection
 is a separate application change gated by Phase 9; adding its key does not
-activate it in the runtime Gemini Ã¢â€ â€™ Groq chain.
+activate it in the runtime Gemini → Groq chain.
 
 ## Backup and restore drill
 
@@ -209,7 +211,6 @@ plan. Rolling back an image does not reverse a schema migration.
   PayHere sandbox-card callback, duplicate callback, and forged-signature checks pass.
 - [ ] Live-mode code blocker above is resolved and tested before live credentials
   are installed. Approved merchant/domain settings match the deployment.
-- [ ] Public chat routing, session access controls, and required customer flows
-  are implemented and tested before presenting this as a complete shopping agent.
+- [ ] Verify sign-in/logout, conversation ownership, saved history, cart updates, order confirmation, and sandbox payment status on the deployed HTTPS origin.
 - [ ] Monitoring covers failed callbacks/stock reconciliation, chargeback reviews,
   provider failures, database capacity, and backup/renewal jobs.

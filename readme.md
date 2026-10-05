@@ -12,19 +12,20 @@ Python 3.12 · FastAPI · LangChain · LangGraph · PostgreSQL · PayHere Sandbo
 
 </div>
 
-LifeStore connects a conversational shopping assistant to a PostgreSQL product catalog. Customers can explore products, compare options, and check prices and availability through a private browser-based demo. Backend tools extend the workflow with cart management, confirmed checkout, and sandbox payments in Sri Lankan rupees (LKR).
+LifeStore connects a conversational shopping assistant to a PostgreSQL product catalog. Customers can sign in, explore products, compare options, manage their cart, and confirm checkout through a browser-based conversation. Saved conversations retain order reviews and verified sandbox payment status in Sri Lankan rupees (LKR).
 
 ## Features
 
 - **Catalog discovery:** search by keywords, category, brand, budget, sale status, and stock; compare up to three products.
 - **Multilingual conversation:** Sinhala and Tamil script detection with model-guided language responses.
 - **Provider fallback:** Gemini with Groq fallback, using the same catalog tools.
-- **Persistent conversations:** PostgreSQL-backed LangGraph checkpoints retain session history.
+- **Account sign-in:** hashed passwords, revocable cookie sessions, and account-owned conversation history.
+- **Persistent conversations:** saved browser history and PostgreSQL-backed LangGraph checkpoints let customers return to previous conversations.
 - **Cart and checkout services:** live price checks, stock validation, and a confirmation pause before order creation.
 - **PayHere sandbox integration:** signed payment links, verified callbacks, and transactional stock updates.
 - **Price checks and audit records:** validate Rs.-formatted reply amounts against tool results and record tool execution.
 
-The browser demo currently supports **catalog browsing** and uses a shared test token. Cart and checkout are available as backend tools and a separate graph. Payments run in **sandbox mode**. Public customer authentication and browser checkout integration are separate deployment requirements.
+The browser supports **sign-in, catalog browsing, cart updates, checkout review, explicit confirmation, and payment status**. Accounts are provisioned with a command-line script; self-service registration is not included. Payments run in **sandbox mode** with no real charges or delivery.
 
 ## Quick start
 
@@ -40,7 +41,7 @@ cp .env.example .env
 
 On Windows PowerShell, use `Copy-Item .env.example .env` for the last command.
 
-Edit `.env` and set `GOOGLE_API_KEY`, `GROQ_API_KEY`, and a long random `CHAT_TEST_TOKEN`. Set `GEMINI_MODEL` to a model available to your account. The example database URL is for the local Compose network.
+Edit `.env` and set `GOOGLE_API_KEY` and `GROQ_API_KEY`. Set `GEMINI_MODEL` to a model available to your account. The example database URL is for the local Compose network. Set `PAYHERE_PUBLIC_BASE_URL` to the exact origin used to open the application, including its scheme and port. For local HTTP checks, use `http://localhost:8000`; use a public HTTPS origin for sandbox payments.
 
 PayHere credentials are only needed to exercise sandbox payment flows. OpenAI credentials are optional and used by explicitly selected provider tests.
 
@@ -51,6 +52,7 @@ docker compose build api
 docker compose up -d --wait db
 docker compose run --rm api python -m app.db.schema
 docker compose run --rm api python -m scripts.seed
+docker compose run --rm api python -m scripts.create_test_account
 docker compose up -d api
 ```
 
@@ -58,7 +60,9 @@ The seed command loads the bundled demo catalog and sample transactions. Existin
 
 ### 3. Open the demo
 
-Visit `http://localhost:8000/#token=YOUR_CHAT_TEST_TOKEN`, replacing the placeholder with your local token. The page stores the token in session storage and removes it from the address bar.
+The account command prints the username `tester` and a generated password on first creation. Save the password privately; rerunning the command retains the existing password.
+
+Open the application and sign in. Authentication uses a Secure, HttpOnly cookie: use HTTPS for the complete browser flow. Plain `http://localhost:8000` can be used for API health checks; browser support for Secure cookies on localhost varies. See the [deployment guide](deploy/README.md) for HTTPS setup.
 
 Try: “What categories do you have?”, “Find a Wi-Fi extender”, or “Compare these two products.”
 
@@ -72,14 +76,15 @@ The health endpoint reports API availability. Stop services with `docker compose
 
 ```mermaid
 flowchart LR
-    UI[Private browser demo] --> API[FastAPI /api/chat]
-    API --> Browse[Browsing graph]
+    UI[Account-based browser chat] --> API[FastAPI /api/chat]
+    API --> Browse[Shopping graph]
     Browse --> Models[Gemini → Groq]
-    Browse --> Catalog[Catalog tools]
+    Browse --> Catalog[Catalog and cart tools]
     Catalog --> DB[(PostgreSQL)]
     Browse --> Memory[Persistent checkpoints]
     Memory --> DB
-    Checkout[Checkout graph] --> Confirm[Explicit confirmation]
+    Browse --> Checkout[Checkout graph]
+    Checkout --> Confirm[Explicit confirmation]
     Confirm --> Orders[Order and payment tools]
     Orders --> DB
     Orders --> PayHere[PayHere sandbox]
@@ -87,13 +92,13 @@ flowchart LR
     Webhook --> DB
 ```
 
-Browsing and checkout have separate graph entry points. Catalog queries read current database values. Cart tools reprice items from current product data; checkout revalidates the confirmed snapshot. Stock is deducted when a verified successful payment callback is processed, rather than when an item enters a cart.
+The shopping graph combines catalog and cart tools with a separate checkout graph. The browser displays the order review and sends an explicit confirm or cancel action. Catalog queries read current database values. Cart tools reprice items from current product data; checkout revalidates the confirmed snapshot. Stock is deducted when a verified successful payment callback is processed, rather than when an item enters a cart.
 
 | Path | Purpose |
 | --- | --- |
-| `app/api/` | Browser demo, chat endpoint, payment pages and webhook |
+| `app/api/` | Sign-in, conversation history, chat, payment pages and webhook |
 | `app/core/` | Model fallback, price validation and tool auditing |
-| `app/graph/` | Browsing, checkout and checkpoint management |
+| `app/graph/` | Browsing, shopping, checkout and checkpoint management |
 | `app/tools/` | Catalog, cart and order operations |
 | `app/db/` | SQLAlchemy models, sessions and schema initialization |
 | `scripts/seed.py` | Repeatable sample-data loading |
@@ -106,7 +111,7 @@ Browsing and checkout have separate graph entry points. Catalog queries read cur
 | --- | --- |
 | `GOOGLE_API_KEY`, `GROQ_API_KEY` | Required for conversational browsing |
 | `GEMINI_MODEL` | Primary Gemini model selection |
-| `CHAT_TEST_TOKEN` | Bearer token for the private demo |
+| `CHAT_TEST_TOKEN` | Optional legacy API token; unused by browser sign-in |
 | `DATABASE_URL` | PostgreSQL connection string |
 | `PAYHERE_MERCHANT_ID`, `PAYHERE_MERCHANT_SECRET` | Sandbox merchant credentials |
 | `PAYHERE_PUBLIC_BASE_URL` | Public HTTPS origin for payment callbacks |

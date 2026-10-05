@@ -95,3 +95,52 @@ class PaymentReview(Base):
     order_id: Mapped[str] = mapped_column(ForeignKey("orders.id"))
     payment_id: Mapped[str]
     reason: Mapped[str]
+
+# Account data is additive; existing catalogue/order tables are unchanged.
+from datetime import datetime, timezone
+from sqlalchemy import DateTime, Text, Index
+
+
+def utcnow():
+    return datetime.now(timezone.utc)
+
+
+class UserAccount(Base):
+    __tablename__ = 'user_accounts'
+    id: Mapped[str] = mapped_column(primary_key=True)
+    username: Mapped[str] = mapped_column(unique=True)
+    name: Mapped[str]
+    password_hash: Mapped[str]
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class LoginSession(Base):
+    __tablename__ = 'login_sessions'
+    token_hash: Mapped[str] = mapped_column(primary_key=True)
+    user_id: Mapped[str] = mapped_column(ForeignKey('user_accounts.id'), index=True)
+    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), index=True)
+
+
+class AuthAttempt(Base):
+    __tablename__ = 'auth_attempts'
+    key: Mapped[str] = mapped_column(primary_key=True)
+    window: Mapped[int]
+    count: Mapped[int]
+
+
+class Conversation(Base):
+    __tablename__ = 'conversations'
+    id: Mapped[str] = mapped_column(primary_key=True)
+    user_id: Mapped[str] = mapped_column(ForeignKey('user_accounts.id'), index=True)
+    title: Mapped[str] = mapped_column(default='New conversation')
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class ChatTurn(Base):
+    __tablename__ = 'chat_turns'
+    id: Mapped[str] = mapped_column(primary_key=True)
+    conversation_id: Mapped[str] = mapped_column(ForeignKey('conversations.id'), index=True)
+    user_text: Mapped[str] = mapped_column(Text)
+    reply: Mapped[str | None] = mapped_column(Text)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)

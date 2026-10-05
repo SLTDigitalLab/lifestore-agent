@@ -10,7 +10,7 @@ from decimal import Decimal, InvalidOperation
 from urllib.parse import parse_qsl, urlencode
 
 from fastapi import APIRouter, HTTPException, Request
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -83,8 +83,8 @@ def checkout_form(order_id: str, expires: int, token: str):
         if "," not in order.address or not order.address.rsplit(",", 1)[1].strip():
             raise HTTPException(422, "Delivery address must end with a comma and city")
         first, _, last = order.customer_name.partition(" ")
-        fields = dict(merchant_id=merchant, return_url=base + "/payments/payhere/return",
-                      cancel_url=base + "/payments/payhere/cancel", notify_url=base + "/webhooks/payhere",
+        fields = dict(merchant_id=merchant, return_url=base + "/payments/payhere/return?" + urlencode({"conversation": cart.session_id, "order_id": order.id}),
+                      cancel_url=base + "/payments/payhere/cancel?" + urlencode({"conversation": cart.session_id, "order_id": order.id}), notify_url=base + "/webhooks/payhere",
                       first_name=first, last_name=last, email=order.email, phone=order.phone,
                       address=order.address, city=order.address.rsplit(",", 1)[1].strip(), country="Sri Lanka",
                       order_id=order.id, items="LifeStore order " + order.id, currency="LKR",
@@ -101,11 +101,21 @@ def checkout_form(order_id: str, expires: int, token: str):
     return HTMLResponse(body, headers={"Cache-Control": "no-store", "Referrer-Policy": "strict-origin"})
 
 
-@router.get("/payments/payhere/return", response_class=HTMLResponse)
-@router.get("/payments/payhere/cancel", response_class=HTMLResponse)
-def payment_return():
-    return "<p>Return to your LifeStore conversation to check the verified order status.</p>"
-
+@router.get('/payments/payhere/return')
+@router.get('/payments/payhere/cancel')
+def payment_return(request: Request, conversation: str = '', order_id: str = ''):
+    from uuid import UUID
+    query = {'payment': 'cancelled' if request.url.path.endswith('/cancel') else 'returned'}
+    try:
+        query['conversation'] = str(UUID(conversation))
+    except ValueError:
+        pass
+    import re
+    if re.fullmatch(r'ORD-[a-zA-Z0-9-]{1,80}', order_id):
+        query['order_id'] = order_id
+    # A browser return never marks an order paid. The UI fetches webhook-verified status.
+    return RedirectResponse('/?' + urlencode(query), status_code=303,
+                            headers={'Cache-Control': 'no-store'})
 
 @router.post("/webhooks/payhere")
 async def notify(request: Request):
@@ -114,13 +124,20 @@ async def notify(request: Request):
     if not secret or not merchant:
         raise HTTPException(503, "PayHere credentials not configured")
     if request.headers.get("content-type", "").split(";")[0].lower() != "application/x-www-form-urlencoded":
+        logger.warning("PayHere notification rejected: content type")
         raise HTTPException(400, "Expected form-encoded notification")
     body = await request.body()
     if len(body) > 16384:
         raise HTTPException(400, "Notification too large")
     try:
-        pairs = parse_qsl(body.decode("utf-8"), keep_blank_values=True, strict_parsing=True)
+        # Form encoders may represent optional empty fields as bare keys.
+        # Decode normal form syntax; duplicate keys and signed fields are still
+        # validated below before any database access.
+        pairs = parse_qsl(body.decode("utf-8"), keep_blank_values=True)
     except (ValueError, UnicodeError) as error:
+        logger.warning("PayHere notification rejected: malformed form (empty segments=%d, unkeyed segments=%d)",
+                       sum(not part for part in body.split(b"&")),
+                       sum(bool(part) and b"=" not in part for part in body.split(b"&")))
         raise HTTPException(400, "Invalid form") from error
     p = dict(pairs)
     if len(p) != len(pairs) or not verify(p, secret):
@@ -131,17 +148,21 @@ async def notify(request: Request):
         amount = Decimal(p["payhere_amount"])
         code = int(p["status_code"])
     except (KeyError, ValueError, InvalidOperation) as error:
+        logger.warning("PayHere notification rejected: amount or status format")
         raise HTTPException(400, "Invalid notification values") from error
     if not amount.is_finite() or amount < 0 or p["merchant_id"] != merchant or p["payhere_currency"] != "LKR" or code not in (2, 0, -1, -2, -3):
+        logger.warning("PayHere notification rejected: merchant/currency/amount/status validation")
         raise HTTPException(400, "Invalid merchant, currency, amount or status")
     payment_id = p.get("payment_id", "")
     if not payment_id:
+        logger.warning("PayHere notification rejected: missing payment ID")
         raise HTTPException(400, "Missing payment_id")
     with Session(get_order_engine()) as session, session.begin():
         order = session.scalar(select(Order).where(Order.id == p["order_id"]).with_for_update())
         if order is None:
             raise HTTPException(404, "Order not found")
         if amount != order.total:
+            logger.warning("PayHere notification rejected: order amount mismatch")
             raise HTTPException(400, "Payment amount does not match order")
         if code == -3:
             review_id = hashlib.sha256(f"chargeback:{order.id}:{payment_id}".encode()).hexdigest()

@@ -53,3 +53,8 @@ Desktop.ini
 
 # Clean export for publishing
 /github-release/
+
+# Local study notes and browser artifacts
+/study.md
+.test-artifacts/
+node_modules/

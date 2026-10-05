@@ -38,3 +38,25 @@ def test_chat_hides_provider_error(monkeypatch):
     assert response.status_code == 503
     assert "private-provider-data" not in response.text
     assert not chat.busy.locked()
+import pytest
+
+@pytest.fixture(autouse=True)
+def empty_checkout(monkeypatch):
+    monkeypatch.setenv('CHAT_ALLOW_LEGACY', '1')
+    monkeypatch.setattr(chat, 'checkout_graph', lambda: SimpleNamespace(
+        get_state=lambda config: SimpleNamespace(next=(), values={})))
+
+
+def test_confirmation_requires_session(monkeypatch):
+    monkeypatch.setenv('CHAT_TEST_TOKEN', 'test-secret')
+    response = TestClient(app).post('/api/chat', headers={'Authorization': 'Bearer test-secret'},
+                                    json={'action': 'confirm'})
+    assert response.status_code == 422
+
+
+def test_confirmation_without_review_rejected(monkeypatch):
+    from uuid import uuid4
+    monkeypatch.setenv('CHAT_TEST_TOKEN', 'test-secret')
+    response = TestClient(app).post('/api/chat', headers={'Authorization': 'Bearer test-secret'},
+                                    json={'action': 'confirm', 'session_id': str(uuid4())})
+    assert response.status_code == 409

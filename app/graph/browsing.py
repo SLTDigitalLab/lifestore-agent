@@ -72,20 +72,21 @@ def conversation_language(state: BrowsingState) -> Language:
     return state.get("language", "English")
 
 
-def build_browsing_graph(checkpointer=None):
+def build_browsing_graph(checkpointer=None, *, tools=None, system_prompt=None):
     """Build once and reuse with a distinct configurable.thread_id per session.
 
     PostgreSQL stores history across rebuilds/restarts. Use thread_id=session_id.
     A checkpointer may be injected for isolated tests.
     """
-    model = get_llm(catalog_tools)
+    active_tools = catalog_tools if tools is None else tools
+    model = get_llm(active_tools)
 
     def agent(state: BrowsingState, config: RunnableConfig) -> dict:
         language = conversation_language(state)
         latest = max(i for i, message in enumerate(state["messages"]) if isinstance(message, HumanMessage))
         turn = state["messages"][latest].id
         retries = state.get("price_retries", 0) if state.get("retry_turn") == turn else 0
-        prompt = SystemMessage(content=SYSTEM_PROMPT + f"\nLanguage hint: {language}.")
+        prompt = SystemMessage(content=(system_prompt or SYSTEM_PROMPT) + f"\nLanguage hint: {language}.")
         if retries:
             prompt.content += "\nYour previous reply contained an unverified price. Use only monetary numbers from this turn's tool results. Fetch fresh data if needed."
         # Do not expose raw model token callbacks before the guardrail passes.
@@ -105,7 +106,7 @@ def build_browsing_graph(checkpointer=None):
 
     builder = StateGraph(BrowsingState)
     builder.add_node("agent", agent)
-    builder.add_node("tools", ToolNode(catalog_tools))
+    builder.add_node("tools", ToolNode(active_tools))
     builder.add_edge(START, "agent")
     builder.add_conditional_edges("agent", lambda state: "agent" if state.get("retry_needed") else tools_condition(state), {"agent": "agent", "tools": "tools", END: END})
     builder.add_edge("tools", "agent")
