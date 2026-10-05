@@ -1,0 +1,1 @@
+"""LifeStore shopping agent application."""

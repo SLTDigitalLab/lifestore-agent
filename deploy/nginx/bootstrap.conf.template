@@ -1,0 +1,11 @@
+server {
+    listen 80;
+    server_name ${DOMAIN};
+    server_tokens off;
+    location = /nginx-health { access_log off; return 200 "ok\n"; }
+    location /.well-known/acme-challenge/ { root /var/www/certbot; }
+    # Allow deployment verification before the domain/certificate is available.
+    location = /health { proxy_pass http://api:8000/health; }
+    # No customer traffic before TLS is configured.
+    location / { return 503; }
+}

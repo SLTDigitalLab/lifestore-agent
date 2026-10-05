@@ -1,0 +1,55 @@
+﻿# Local configuration and secrets
+.env
+.env.*
+!.env.example
+!**/.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+credentials*.json
+service-account*.json
+
+# Python environments and generated files
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+*.egg-info/
+build/
+dist/
+
+# Local data and operational artifacts
+backups/
+*.log
+*.sqlite
+*.sqlite3
+*.dump
+*.sql.gz
+
+# Editor and OS files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+
+# Private project notes and machine-specific handoffs
+/Prompts and instructions
+/works done yet
+/Open LifeStore.url
+/LifeStore AI Shopping Agent — Developer Guide.pdf
+/deploy/azure-deployment.md
+
+# Clean export for publishing
+/github-release/

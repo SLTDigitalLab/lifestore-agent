@@ -1,0 +1,162 @@
+{
+  "categories": [
+    { "id": "CAT-01", "name": "Wi-Fi Devices" },
+    { "id": "CAT-02", "name": "3G & 4G Routers" },
+    { "id": "CAT-03", "name": "Security Cameras" },
+    { "id": "CAT-04", "name": "Telephones" },
+    { "id": "CAT-05", "name": "Laptops" },
+    { "id": "CAT-06", "name": "Audio & Music" },
+    { "id": "CAT-07", "name": "Network Switches" },
+    { "id": "CAT-08", "name": "Smart Home" },
+    { "id": "CAT-09", "name": "Power Guards" },
+    { "id": "CAT-10", "name": "Computer Peripherals" },
+    { "id": "CAT-11", "name": "PEOTV & Accessories" },
+    { "id": "CAT-12", "name": "STEM Toys" },
+    { "id": "CAT-13", "name": "Internet of Things (IoT)" },
+    { "id": "CAT-14", "name": "Bicycles" }
+  ],
+
+  "products": [
+    { "id": "PRD-01", "name": "Tenda MX3 2-Pack Mesh Wi-Fi 6 System", "category_id": "CAT-01", "brand": "Tenda", "price": 49925.00, "sale_price": 26625.00, "stock": 12, "warranty_months": 12, "description": "Two-unit Wi-Fi 6 mesh system for whole-home coverage.", "url": "https://lifestore.lk/product/tenda-mx3-2-pack-mesh-wi-fi-6-system" },
+    { "id": "PRD-02", "name": "CUDY AX3000 Wi-Fi 6 MESH System (Twin Pack)", "category_id": "CAT-01", "brand": "Cudy", "price": 45795.00, "sale_price": null, "stock": 6, "warranty_months": 12, "description": "AX3000 Wi-Fi 6 mesh twin pack for larger homes.", "url": "https://lifestore.lk/product/cudy-ax3000-wi-fi-6-mesh-system-twin-pack" },
+    { "id": "PRD-03", "name": "CUDY AX1500 WI-FI 6 Range Extender", "category_id": "CAT-01", "brand": "Cudy", "price": 14980.00, "sale_price": null, "stock": 17, "warranty_months": 12, "description": "Wi-Fi 6 range extender to remove dead zones.", "url": "https://lifestore.lk/product/cudy-ax1500-wi-fi-6-range-extender" },
+    { "id": "PRD-16", "name": "CUDY AX3000 Wi-Fi 6 Router", "category_id": "CAT-01", "brand": "Cudy", "price": 25520.00, "sale_price": null, "stock": 9, "warranty_months": 12, "description": "Dual-band AX3000 Wi-Fi 6 home router.", "url": "https://lifestore.lk/product/cudy-ax3000-wi-fi-6-router" },
+    { "id": "PRD-17", "name": "CUDY WU1400 AC1300 Wi-Fi High Gain Adaptor", "category_id": "CAT-01", "brand": "Cudy", "price": 8655.00, "sale_price": null, "stock": 15, "warranty_months": 12, "description": "USB Wi-Fi adaptor with high-gain antennas for PCs.", "url": "https://lifestore.lk/product/cudy-wu1400-ac1300-wi-fi-high-gain-adaptor" },
+    { "id": "PRD-18", "name": "Cudy AC1200 Dual Band Range Extender", "category_id": "CAT-01", "brand": "Cudy", "price": 15930.00, "sale_price": 12820.00, "stock": 10, "warranty_months": 12, "description": "Dual-band AC1200 Wi-Fi range extender.", "url": "https://lifestore.lk/product/cudy-ac1200-dual-band-range-extender" },
+    { "id": "PRD-19", "name": "Prolink PEN1201 Wi-Fi Extender", "category_id": "CAT-01", "brand": "Prolink", "price": 12315.00, "sale_price": 8990.00, "stock": 7, "warranty_months": 12, "description": "Plug-in Wi-Fi range extender.", "url": "https://lifestore.lk/product/prolink-pen1201-wi-fi-extender" },
+    { "id": "PRD-20", "name": "Prolink DH5201 Dual-band Wi-Fi Extender", "category_id": "CAT-01", "brand": "Prolink", "price": 14445.00, "sale_price": 9255.00, "stock": 5, "warranty_months": 12, "description": "Dual-band Wi-Fi range extender.", "url": "https://lifestore.lk/product/prolink-dh5201-dual-band-wi-fi-extender" },
+
+    { "id": "PRD-04", "name": "COMSTOX ZLT T10 Max 4G LTE Router", "category_id": "CAT-02", "brand": "COMSTOX", "price": 9900.00, "sale_price": 8910.00, "stock": 36, "warranty_months": 12, "description": "SIM-based 4G LTE home router with Wi-Fi.", "url": "https://lifestore.lk/product/comstox-zlt-t10-max-4g-lte-router" },
+    { "id": "PRD-05", "name": "PROLINK DL-7306 CAT4 4G Router", "category_id": "CAT-02", "brand": "Prolink", "price": 19840.00, "sale_price": 14980.00, "stock": 12, "warranty_months": 12, "description": "CAT4 4G LTE router for home and small office.", "url": "https://lifestore.lk/product/prolink-dl-7306-cat4-4g-router" },
+    { "id": "PRD-21", "name": "SIYOL Pocket Mi-Fi Router", "category_id": "CAT-02", "brand": "SIYOL", "price": 11385.00, "sale_price": 8990.00, "stock": 0, "warranty_months": 12, "description": "Battery-powered pocket 4G Mi-Fi hotspot.", "url": "https://lifestore.lk/product/siyol-pocket-mi-fi-router" },
+
+    { "id": "PRD-06", "name": "TAPO C200 IP Camera", "category_id": "CAT-03", "brand": "TP-Link Tapo", "price": 7745.00, "sale_price": null, "stock": 23, "warranty_months": 12, "description": "Pan/tilt indoor Wi-Fi camera, 1080p, two-way audio, microSD up to 512 GB, motion detection.", "url": "https://lifestore.lk/product/tapo-c200-ip-camera" },
+    { "id": "PRD-07", "name": "TAPO C520WS Outdoor Camera", "category_id": "CAT-03", "brand": "TP-Link Tapo", "price": 17595.00, "sale_price": null, "stock": 4, "warranty_months": 12, "description": "Weatherproof pan/tilt outdoor Wi-Fi camera with colour night vision.", "url": "https://lifestore.lk/product/tapo-c520ws-outdoor-camera" },
+
+    { "id": "PRD-08", "name": "Emark HCD-211N CLI Phone", "category_id": "CAT-04", "brand": "E-Mark", "price": 4895.00, "sale_price": 4380.00, "stock": 22, "warranty_months": 12, "description": "Corded landline phone with caller ID display.", "url": "https://lifestore.lk/product/emark-hcd-211n-cli-phone" },
+    { "id": "PRD-09", "name": "D-TOP DT-200 CLI Phone", "category_id": "CAT-04", "brand": "D-TOP", "price": 5490.00, "sale_price": null, "stock": 14, "warranty_months": 12, "description": "CLI/SMS landline phone.", "url": "https://lifestore.lk/product/d-top-dt-200-cli-phone" },
+    { "id": "PRD-10", "name": "ALCATEL S280 Cordless Phone", "category_id": "CAT-04", "brand": "Alcatel", "price": 14900.00, "sale_price": 11895.00, "stock": 2, "warranty_months": 12, "description": "Cordless phone with caller ID.", "url": "https://lifestore.lk/product/alcatel-s280-cordless-phone" },
+    { "id": "PRD-22", "name": "Emark W159 Cordless Phone", "category_id": "CAT-04", "brand": "E-Mark", "price": 11895.00, "sale_price": null, "stock": 9, "warranty_months": 12, "description": "Cordless landline phone for home use.", "url": "https://lifestore.lk/product/emark-w159-cordless-phone" },
+    { "id": "PRD-23", "name": "E-Mark E121 Feature Phone", "category_id": "CAT-04", "brand": "E-Mark", "price": 4490.00, "sale_price": 3690.00, "stock": 40, "warranty_months": 12, "description": "Basic mobile feature phone with long battery life.", "url": "https://lifestore.lk/product/e-mark-e121-feature-phone" },
+    { "id": "PRD-24", "name": "Alcatel T28 Basic Telephone", "category_id": "CAT-04", "brand": "Alcatel", "price": 7110.00, "sale_price": 5595.00, "stock": 11, "warranty_months": 12, "description": "Simple corded telephone.", "url": "https://lifestore.lk/product/alcatel-t28-basic-telephone" },
+    { "id": "PRD-25", "name": "Prolink HA100 Basic Telephone", "category_id": "CAT-04", "brand": "Prolink", "price": 6570.00, "sale_price": 3250.00, "stock": 18, "warranty_months": 12, "description": "Basic corded telephone.", "url": "https://lifestore.lk/product/prolink-ha100-basic-telephone" },
+    { "id": "PRD-26", "name": "Prolink HCD52C-CLI Telephone", "category_id": "CAT-04", "brand": "Prolink", "price": 9055.00, "sale_price": 5250.00, "stock": 8, "warranty_months": 12, "description": "Corded phone with caller ID (CLI).", "url": "https://lifestore.lk/product/prolink-hcd52c-cli-telephone" },
+    { "id": "PRD-27", "name": "Prolink HCD130C CLI Telephone", "category_id": "CAT-04", "brand": "Prolink", "price": 10120.00, "sale_price": 6740.00, "stock": 6, "warranty_months": 12, "description": "Corded phone with caller ID (CLI).", "url": "https://lifestore.lk/product/prolink-hcd130c-cli-telephone" },
+    { "id": "PRD-28", "name": "Basic PSTN Phone-D-TOP DT100", "category_id": "CAT-04", "brand": "D-TOP", "price": 3730.00, "sale_price": null, "stock": 25, "warranty_months": 12, "description": "Basic corded PSTN phone.", "url": "https://lifestore.lk/product/basic-pstn-phone-d-top-dt100" },
+
+    { "id": "PRD-11", "name": "COMSTOX LC140-1038NG7 Laptop", "category_id": "CAT-05", "brand": "COMSTOX", "price": 146440.00, "sale_price": 103000.00, "stock": 6, "warranty_months": 12, "description": "14-inch everyday laptop for study and office work.", "url": "https://lifestore.lk/product/comstox-lc140-1038ng7-laptop" },
+    { "id": "PRD-29", "name": "EMARK LAPTOP-PN 1574P - 1038NG7", "category_id": "CAT-05", "brand": "E-Mark", "price": 152695.00, "sale_price": 121810.00, "stock": 3, "warranty_months": 12, "description": "15.6-inch laptop for work and study.", "url": "https://lifestore.lk/product/emark-laptop-pn-1574p-1038ng7" },
+
+    { "id": "PRD-12", "name": "EMARK MB588 Portable Bluetooth Speaker", "category_id": "CAT-06", "brand": "E-Mark", "price": 7795.00, "sale_price": null, "stock": 29, "warranty_months": 6, "description": "Portable Bluetooth speaker with RGB lighting.", "url": "https://lifestore.lk/product/emark-mb588-portable-bluetooth-speaker" },
+    { "id": "PRD-30", "name": "EMARK M65 FM RADIO", "category_id": "CAT-06", "brand": "E-Mark", "price": 2950.00, "sale_price": null, "stock": 30, "warranty_months": 6, "description": "Compact portable FM radio.", "url": "https://lifestore.lk/product/emark-m65-fm-radio" },
+
+    { "id": "PRD-13", "name": "CUDY GS108D 8-Port Gigabit Unmanaged Switch", "category_id": "CAT-07", "brand": "Cudy", "price": 8415.00, "sale_price": null, "stock": 17, "warranty_months": 12, "description": "Plug-and-play 8-port gigabit desktop switch.", "url": "https://lifestore.lk/product/cudy-gs108d-8-port-gigabit-unmanaged-switch" },
+
+    { "id": "PRD-14", "name": "TeDi Vacuum Robot", "category_id": "CAT-08", "brand": "TeDi", "price": 179500.00, "sale_price": 159900.00, "stock": 0, "warranty_months": 12, "description": "Robot vacuum cleaner for automated floor cleaning.", "url": "https://lifestore.lk/product/tedi-vacuum-robot" },
+    { "id": "PRD-15", "name": "EMARK K8 LUMACAST FULL HD PROJECTOR", "category_id": "CAT-08", "brand": "E-Mark", "price": 46980.00, "sale_price": null, "stock": 8, "warranty_months": 12, "description": "Full HD home projector.", "url": "https://lifestore.lk/product/emark-k8-lumacast-full-hd-projector" },
+
+    { "id": "PRD-31", "name": "AJ Power Guard 6A", "category_id": "CAT-09", "brand": "AJ", "price": 5260.00, "sale_price": 4735.00, "stock": 16, "warranty_months": 12, "description": "Voltage protection for home electronic appliances.", "url": "https://lifestore.lk/product/aj-power-guard-6a" },
+    { "id": "PRD-32", "name": "Clean Power Mini Surge Protector", "category_id": "CAT-09", "brand": "Clean Power", "price": 4795.00, "sale_price": null, "stock": 13, "warranty_months": 12, "description": "Compact surge protector for electronics.", "url": "https://lifestore.lk/product/clean-power-mini-surge-protector" },
+
+    { "id": "PRD-33", "name": "E-MARK AI-Powered Mouse", "category_id": "CAT-10", "brand": "E-Mark", "price": 14980.00, "sale_price": null, "stock": 7, "warranty_months": 12, "description": "Smart mouse with AI features such as voice input.", "url": "https://lifestore.lk/product/e-mark-ai-powered-mouse" },
+    { "id": "PRD-34", "name": "PROLINK GMK-5007M Multi-device Mini Combo", "category_id": "CAT-10", "brand": "Prolink", "price": 9985.00, "sale_price": null, "stock": 10, "warranty_months": 12, "description": "Compact wireless keyboard and mouse combo.", "url": "https://lifestore.lk/product/prolink-gmk-5007m-multi-device-mini-combo" },
+
+    { "id": "PRD-35", "name": "PEO TV Remote Controller", "category_id": "CAT-11", "brand": "SLT-MOBITEL", "price": 1240.00, "sale_price": null, "stock": 145, "warranty_months": 0, "description": "Replacement remote for the PEO TV set-top box.", "url": "https://lifestore.lk/product/peo-tv-remote-controller" },
+
+    { "id": "PRD-36", "name": "Propeller Car", "category_id": "CAT-12", "brand": "Generic", "price": 4795.00, "sale_price": 3830.00, "stock": 20, "warranty_months": 0, "description": "DIY STEM propeller car kit for kids.", "url": "https://lifestore.lk/product/propeller-car" },
+
+    { "id": "PRD-37", "name": "IIoT Development Kit", "category_id": "CAT-13", "brand": "Generic", "price": 10785.00, "sale_price": null, "stock": 5, "warranty_months": 6, "description": "Starter kit for building Industrial IoT projects.", "url": "https://lifestore.lk/product/iiot-development-kit" },
+
+    { "id": "PRD-38", "name": "Emark Hamilton Standard Bicycle", "category_id": "CAT-14", "brand": "E-Mark", "price": 29900.00, "sale_price": null, "stock": 5, "warranty_months": 6, "description": "Standard city bicycle.", "url": "https://lifestore.lk/product/emark-hamilton-standard-bicycle" }
+  ],
+
+  "carts": [
+    {
+      "id": "CART-01",
+      "session_id": "sess_001",
+      "items": [
+        { "product_id": "PRD-06", "quantity": 2, "unit_price": 7745.00 },
+        { "product_id": "PRD-13", "quantity": 1, "unit_price": 8415.00 }
+      ],
+      "total": 23905.00,
+      "status": "CONVERTED"
+    },
+    {
+      "id": "CART-02",
+      "session_id": "sess_002",
+      "items": [
+        { "product_id": "PRD-04", "quantity": 1, "unit_price": 8910.00 },
+        { "product_id": "PRD-12", "quantity": 1, "unit_price": 7795.00 }
+      ],
+      "total": 16705.00,
+      "status": "OPEN"
+    },
+    {
+      "id": "CART-03",
+      "session_id": "sess_003",
+      "items": [
+        { "product_id": "PRD-01", "quantity": 1, "unit_price": 26625.00 }
+      ],
+      "total": 26625.00,
+      "status": "CONVERTED"
+    },
+    {
+      "id": "CART-04",
+      "session_id": "sess_004",
+      "items": [
+        { "product_id": "PRD-08", "quantity": 2, "unit_price": 4380.00 }
+      ],
+      "total": 8760.00,
+      "status": "ABANDONED"
+    },
+    {
+      "id": "CART-05",
+      "session_id": "sess_005",
+      "items": [
+        { "product_id": "PRD-35", "quantity": 2, "unit_price": 1240.00 },
+        { "product_id": "PRD-30", "quantity": 1, "unit_price": 2950.00 }
+      ],
+      "total": 5430.00,
+      "status": "CONVERTED"
+    }
+  ],
+
+  "orders": [
+    {
+      "id": "ORD-0001",
+      "cart_id": "CART-01",
+      "customer_name": "Saman Perera",
+      "phone": "0771234567",
+      "email": "saman@example.com",
+      "address": "No. 12, Galle Road, Colombo 06",
+      "total": 23905.00,
+      "status": "PAID",
+      "payhere_payment_id": "320025071278",
+      "payhere_status_code": 2
+    },
+    {
+      "id": "ORD-0002",
+      "cart_id": "CART-03",
+      "customer_name": "Nimali Fernando",
+      "phone": "0719876543",
+      "email": "nimali@example.com",
+      "address": "No. 45, Temple Road, Jaffna",
+      "total": 26625.00,
+      "status": "PAYMENT_FAILED",
+      "payhere_payment_id": null,
+      "payhere_status_code": -2
+    },
+    {
+      "id": "ORD-0003",
+      "cart_id": "CART-05",
+      "customer_name": "Kasun Silva",
+      "phone": "0754567890",
+      "email": "kasun@example.com",
+      "address": "No. 8, Peradeniya Road, Kandy",
+      "total": 5430.00,
+      "status": "PENDING",
+      "payhere_payment_id": "320025071399",
+      "payhere_status_code": 0
+    }
+  ]
+}

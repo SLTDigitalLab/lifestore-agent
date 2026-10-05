@@ -1,0 +1,13 @@
+**
+!requirements.txt
+!app/
+!app/**
+!scripts/
+!scripts/**
+!tests/
+!tests/**
+!lifestore_sample_db.json
+**/__pycache__/
+**/*.pyc
+app/**/__pycache__/
+app/**/*.pyc

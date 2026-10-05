@@ -1,0 +1,46 @@
+name: lifestore-agent
+
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: lifestore
+      POSTGRES_PASSWORD: lifestore_dev
+      POSTGRES_DB: lifestore
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lifestore -d lifestore"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      GOOGLE_API_KEY: ${GOOGLE_API_KEY:-}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-3.5-flash-lite}
+      CHAT_TEST_TOKEN: ${CHAT_TEST_TOKEN:-}
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-}
+      DATABASE_URL: ${DATABASE_URL:-postgresql+psycopg://lifestore:lifestore_dev@db:5432/lifestore}
+      PAYHERE_MERCHANT_ID: ${PAYHERE_MERCHANT_ID:-}
+      PAYHERE_MERCHANT_SECRET: ${PAYHERE_MERCHANT_SECRET:-}
+      PAYHERE_MODE: ${PAYHERE_MODE:-sandbox}
+      PAYHERE_PUBLIC_BASE_URL: ${PAYHERE_PUBLIC_BASE_URL:-}
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=3)"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+volumes:
+  postgres_data:
